@@ -1,0 +1,9 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <div class="error-page">
+    <h2 class="error-page__title">404</h2>
+    <p class="error-page__message">Sorry, the page you're looking for can't be found.</p>
+    <p class="error-page__cta"><a href="{% url 'home' %}">Back to Home</a></p>
+  </div>
+{% endblock %}

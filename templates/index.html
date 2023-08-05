@@ -1,0 +1,39 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}
+Futureform | Home
+{% endblock %}
+
+{% block content %}
+{% if user.role == 'staff' %}
+<div class="container">
+<h1>Welcome, {{user.first_name}}!</h1>
+<p>You can use this application to manage your client's requests</p>
+</div>
+{% else %}
+<h1 class="pu-3">Welcome, {{ user.first_name }}, to Futureform's Project and Request System!</h1>
+<p>You can use this application to see the status of your ongoing requests, or log new ones!</p>
+<div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <p>You've worked on</p>
+        <h1>{{ num_projects }}</h1>
+        <p>projects with us</p>
+      </div>
+      <div class="col-md-4">
+        <p>Have</p>
+        <h1>{{ num_outstanding_requests }}</h1>
+        <p>requests outstanding</p>
+      </div>
+      <div class="col-md-4">
+        <p>And have had</p>
+        <h1>{{ num_resolved_requests }}</h1>
+        <p>requests resolved</p>
+      </div>
+    </div>
+</div>
+{% endif %}
+
+
+
+{% endblock %}

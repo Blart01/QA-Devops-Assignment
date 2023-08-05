@@ -1,0 +1,36 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <a href="{% url 'request_create' %}" class="btn btn-primary">New Request</a>
+  <h2>Requests</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Project</th>
+        <th>Requester</th>
+        <th>Description</th>
+        <th>Date Submitted</th>
+        <th>Last Updated</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in object_list %}
+        <tr>
+          <td><a href="{% url 'request_detail' request.id %}">{{ request.request_type }}</a></td>
+          <td>{{ request.project }}</td>
+          <td>{{ request.requester }}</td>
+          <td>{{ request.description }}</td>
+          <td>{{ request.date_submitted }}</td>
+          <td>{{ request.last_updated }}</td>
+          <td>{{ request.status }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7">No requests available.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

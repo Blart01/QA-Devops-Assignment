@@ -1,0 +1,33 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <div class="request-detail">
+    
+    <a href="{% url 'request_edit' pk=object.id %}" class="btn btn-primary">Update</a>
+    <a href="{% url 'request_delete' pk=object.id %}" class="btn btn-danger">Delete</a>
+    
+    <h2 class="request-detail__title">{{ object.request_type }} for 
+      <a href="{% url 'project_detail' pk=object.project.id %}">{{ object.project }}</a>
+    </h2>
+    <p><strong>Requester:</strong> {{ object.requester }}</p>
+    <p><strong>Description:</strong> {{ object.description }}</p>
+    <p><strong>Date Submitted:</strong> {{ object.date_submitted|date:"F j, Y" }}</p>
+    <p><strong>Last Update:</strong> {{ object.last_updated|date:"F j, Y" }}</p>
+    <p><strong>Status:</strong> {{ object.status }}</p>
+    <p><strong>Date Completed:</strong> {{ object.date_completed }}</p>
+    <h3>New Comment:</h3>
+    <form method="post">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+    <button type="submit">Submit</button>
+    </form>
+    <h3>Comments:</h3>
+    {% for comment in comments %}
+    <div>
+      <p><strong>{{ comment.author }} on {{ comment.created_date|date:"F j, Y" }}:</strong> {{ comment.text }}</p>
+    </div>
+    {% empty %}
+      <p>No comments yet.</p>
+    {% endfor %}
+  </div>
+{% endblock content %}
