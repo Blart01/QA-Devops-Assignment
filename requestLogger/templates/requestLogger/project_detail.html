@@ -1,0 +1,44 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+  <div class="project-detail">
+    {% if user.role == 'staff' %}
+      <a href="{% url 'project_edit' pk=object.id %}" class="btn btn-primary">Update</a>
+      <a href="{% url 'project_delete' pk=object.id %}" class="btn btn-danger">Delete</a>
+    {% endif %}
+    <h2 class="project-detail__title">{{ object.name }}</h2>
+    <p><strong>Description:</strong> {{ object.description }}</p>
+    <p><strong>Owner:</strong> {{ object.owner }}</p>
+    <p><strong>Created At:</strong> {{ object.created_at|date:"F j, Y" }}</p>
+    <p><strong>Last Updated:</strong> {{ object.last_updated|date:"F j, Y" }}</p>
+    <p><strong>Version:</strong> {{ object.version }}</p>
+    <p><strong>Status:</strong> {{ object.status }}</p>
+  </div>
+  <h2>Associated Requests</h2>
+  <table style="width:100%">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Date Submitted</th>
+        <th>Last Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in requests %}
+      <tr>
+        <td>{{ request.subject }}</td>
+        <td>{{ request.request_type }}</td>
+        <td>{{ request.status }}</td>
+        <td>{{ request.date_submitted|date:"F j, Y" }}</td>
+        <td>{{ request.last_updated|date:"F j, Y" }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">No requests associated with this project.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
