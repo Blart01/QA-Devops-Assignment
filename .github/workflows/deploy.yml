@@ -6,8 +6,17 @@ on:
       - main
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    # Define steps for testing here
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    # Define steps for building here
+
   deploy:
-    needs: [test, build]  #ensures build + test has been completed first
+    needs: [test, build]
     runs-on: ubuntu-latest
 
     steps:
