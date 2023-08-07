@@ -83,7 +83,7 @@ class UserModelTest(TestCase):
     def test_customer_must_have_company(self):
         """Test that a ValidationError is raised if a customer user doesn't have an associated company."""
         with self.assertRaises(ValidationError):
-            User.objects.create(username='testcustomer', role='customer')
+            User.objects.create(username='testcustomer', role='customer', company='')
 
 from django.test import TestCase
 from django.utils import timezone

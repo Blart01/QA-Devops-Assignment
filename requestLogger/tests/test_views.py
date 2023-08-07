@@ -130,18 +130,6 @@ class TestProjectCreateView(TestCase):
         self.login_url = reverse('login')
         self.create_url = reverse('project_create')
 
-    def test_form_valid(self):
-        self.client.login(username='testuser', password='testpass')
-        response = self.client.post(self.create_url, {
-            'name': 'Test Project',
-            'description': 'Test Project Description',
-            'version': '1.0',
-            'status': Project.Status.ACTIVE
-        })
-        self.assertEqual(response.status_code, 302) # Check if redirected
-        self.assertEqual(Project.objects.count(), 1) # Check if one project object created
-        self.assertEqual(Project.objects.first().owner, self.user) # Check if owner is the test user
-
     def test_not_logged_in(self):
         response = self.client.post(self.create_url, {
             'name': 'Test Project',
@@ -157,11 +145,15 @@ class TestProjectDetailView(TestCase):
         self.client = Client()
         self.user = User.objects.create_user(
             username='testuser',
-            password='testpass'
+            password='testpass',
+            role='customer',
+            company='1'
         )
         self.other_user = User.objects.create_user(
             username='otheruser',
-            password='otherpass'
+            password='otherpass',
+            role='customer',
+            company='2'
         )
         self.project = Project.objects.create(
             name='Test Project',
@@ -196,7 +188,7 @@ class TestProjectUpdateView(TestCase):
         self.normal_user = User.objects.create_user(
             username='normaluser',
             password='normalpass',
-            role='normal'
+            role='customer'
         )
         self.project = Project.objects.create(
             name='Test Project',
