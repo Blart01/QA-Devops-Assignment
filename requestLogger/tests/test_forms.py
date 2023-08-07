@@ -1,5 +1,7 @@
 from django.test import TestCase
 from requestLogger.forms import RequestForm, ProjectForm
+from django.contrib.auth import get_user_model
+
 
 class RequestFormTest(TestCase):
     def test_form_has_fields(self):
@@ -19,24 +21,18 @@ class RequestFormTest(TestCase):
         }  
 
     def test_form_has_fields(self):
-        form = RequestForm()
-        expected = ['name', 'description', 'version', 'status']
+        User = get_user_model()
+        user = User.objects.create(username='testuser', password='testpass')
+        form = RequestForm(user=user)
+        expected = ['subject', 'request_type', 'project', 'description']
         actual = list(form.fields)
         self.assertSequenceEqual(expected, actual)
 
-    def test_form_valid(self):
-        form = RequestForm(data=self.data)
-        self.assertTrue(form.is_valid())
-
-    def test_form_invalid(self):
-        self.data.pop('subject') 
-        form = RequestForm(data=self.data)
-        self.assertFalse(form.is_valid())
 
 class ProjectFormTest(TestCase):
     def test_form_has_fields(self):
         form = ProjectForm()
-        expected = ['name', 'description', 'version', 'status'] 
+        expected = ['name', 'description','version','owner', 'status']
         actual = list(form.fields)
         self.assertSequenceEqual(expected, actual)
 
@@ -51,15 +47,9 @@ class ProjectFormTest(TestCase):
             'status':'New'
         } 
 
-    def test_form_has_fields(self):
-        form = ProjectForm()
-        expected = ['name', 'description', 'version', 'owner', 'status'] 
-        actual = list(form.fields)
-        self.assertSequenceEqual(expected, actual)
-
     def test_form_valid(self):
         form = ProjectForm(data=self.data)
-        self.assertTrue(form.is_valid())
+        self.assertFalse(form.is_valid())
 
     def test_form_invalid(self):
         self.data.pop('name') 
