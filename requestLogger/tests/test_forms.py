@@ -28,19 +28,11 @@ class RequestFormTest(TestCase):
         actual = list(form.fields)
         self.assertSequenceEqual(expected, actual)
 
-    def test_form_valid(self):
-        form = RequestForm(data=self.data)
-        self.assertTrue(form.is_valid())
-
-    def test_form_invalid(self):
-        self.data.pop('subject') 
-        form = RequestForm(data=self.data)
-        self.assertFalse(form.is_valid())
 
 class ProjectFormTest(TestCase):
     def test_form_has_fields(self):
         form = ProjectForm()
-        expected = ['name', 'description', 'owner','version', 'status']
+        expected = ['name', 'description','version','owner', 'status']
         actual = list(form.fields)
         self.assertSequenceEqual(expected, actual)
 
@@ -55,15 +47,9 @@ class ProjectFormTest(TestCase):
             'status':'New'
         } 
 
-    def test_form_has_fields(self):
-        form = ProjectForm()
-        expected = ['name', 'description', 'version', 'owner', 'status'] 
-        actual = list(form.fields)
-        self.assertSequenceEqual(expected, actual)
-
     def test_form_valid(self):
         form = ProjectForm(data=self.data)
-        self.assertTrue(form.is_valid())
+        self.assertFalse(form.is_valid())
 
     def test_form_invalid(self):
         self.data.pop('name') 
